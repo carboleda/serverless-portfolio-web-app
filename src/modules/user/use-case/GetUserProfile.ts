@@ -1,25 +1,17 @@
-import Api from "../../../datasource/rest-api/Api";
-import UseCase from "../../../domain/UseCase";
-import Constants from "../../../helpers/Constants";
+import { UserDto } from './../model/User';
+import UserRepository from "../repository/UserRepository";
+import NotFoundError from '../../../domain/errors/NotFoundError';
 
-export default class GetUserProfile extends UseCase<Api> {
-    async exec(accessToken: string, tokenType: string, albumId: string): Promise<Array<string>> {
-        const limit = Constants.SPOTIFY_API_PAGING.MAX_LIMIT!!;
-        let offset = Constants.SPOTIFY_API_PAGING.DEFAULT_OFFSET;
-        let hasMore = false;
-        let songs = Array<any>();
+export default class GetUserProfile {
+    constructor(private repository: UserRepository) {}
 
-        do {
-            const response = await this.repository.exec(
-                accessToken, tokenType, albumId, limit, offset
-            );
+    async exec(twitterHandle: string): Promise<UserDto> {
+        const user: UserDto | null = await this.repository.getUserFromDb(twitterHandle);
 
-            songs = [...songs, ...response.items];
+        if (!user) {
+            throw new NotFoundError();
+        }
 
-            offset += limit;
-            hasMore = response.next !== null;
-        } while (hasMore);
-
-        return songs;
+        return user;
     }
 }
