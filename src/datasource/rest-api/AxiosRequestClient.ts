@@ -1,6 +1,8 @@
+import { Singleton } from 'typescript-ioc';
 import { IRestClient, Endpoint, Methods } from './Client';
 import axios from 'axios';
 
+@Singleton
 export default class AxiosRequestClient implements IRestClient {
 
     public async request(endpoint: Endpoint, payload: any): Promise<any> {

@@ -1,7 +1,9 @@
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
+import { Singleton } from "typescript-ioc";
 import LoadEnv from "../../helpers/LoadEnv";
 
-class DynamoDBDataSource {
+@Singleton
+export default class DynamoDBDataSource {
     private db?: DynamoDBClient;
 
     constructor() {
@@ -19,5 +21,3 @@ class DynamoDBDataSource {
         return this.db!!;
     }
 }
-
-export default new DynamoDBDataSource();

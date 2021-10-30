@@ -1,5 +1,7 @@
+import { Singleton } from 'typescript-ioc';
 import { IRestClient, Endpoint } from './Client';
 
+@Singleton
 export default class Api {
 
     private client: IRestClient;

@@ -1,13 +1,17 @@
+import { Inject } from "typescript-ioc";
 import { UserDto } from './../model/User';
 import { Methods } from "../../../datasource/rest-api/Client";
 import Api from "../../../datasource/rest-api/Api";
-import Respository from "../../../domain/Repository";
 import LoadEnv from "../../../helpers/LoadEnv";
 import { DynamoDBClient, PutItemCommand, GetItemCommand } from "@aws-sdk/client-dynamodb";
 import UserMapper from "../model/UserMapper";
 
-export default class UserRepository extends Respository<DynamoDBClient, Api> {
+export default class UserRepository {
     private static URL: string = `${LoadEnv.TWITTER_ENDPOINT}/1.1/users/show.json`;
+    @Inject
+    private db!: DynamoDBClient;
+    @Inject
+    private api!: Api;
 
     async getUserFromApi(
         accessToken: string, tokenType: string, twitterHandle: string

@@ -1,8 +1,9 @@
+import LoadEnv from './helpers/LoadEnv';
+import "./IoC";
 import * as Express from 'express';
 import AbstractRoute from './domain/AbstractRoute';
 import ApiError from './domain/errors/ApiError';
 import { Environment } from './helpers/Constants';
-import LoadEnv from './helpers/LoadEnv';
 import GetUserRoute from './modules/user/routes/GetUserRoute';
 import UpdateUserRoute from './modules/user/routes/UpdateUserRoute';
 
