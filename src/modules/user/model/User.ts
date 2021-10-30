@@ -8,3 +8,10 @@ export type UserDto = {
     name: string | undefined,
     description: string | undefined,
 }
+
+export type TwitterUserModel = {
+    screen_name: string,
+    profile_image_url_https: string | undefined,
+    name: string | undefined,
+    description: string | undefined,
+}

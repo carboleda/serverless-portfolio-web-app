@@ -7,33 +7,31 @@ import { DynamoDBClient, PutItemCommand, GetItemCommand } from "@aws-sdk/client-
 import UserMapper from "../model/UserMapper";
 
 export default class UserRepository {
-    private static URL: string = `${LoadEnv.TWITTER_ENDPOINT}/1.1/users/show.json`;
+    private static URL: string = `${LoadEnv.TWITTER_ENDPOINT}/1.1/users/show.json?screen_name={screen_name}`;
     @Inject
     private db!: DynamoDBClient;
     @Inject
     private api!: Api;
 
-    async getUserFromApi(
-        accessToken: string, tokenType: string, twitterHandle: string
-    ): Promise<any> {
+    async getUserFromApi(twitterHandle: string): Promise<UserDto> {
         try {
             const response = await this.api.request({
                 url: UserRepository.URL,
                 method: Methods.GET,
                 headers: {
-                    Authorization: `${tokenType} ${accessToken}`
+                    Authorization: LoadEnv.TWITTER_BEARER_TOKEN
                 }
             }, { screen_name: twitterHandle });
 
-            return response.data;
+            return UserMapper.twitter2Dto(response.data);
         } catch (error) {
+            console.error('error', error);
             throw error;
         }
     }
 
     async saveUserToDb(user: UserDto): Promise<UserDto> {
         try {
-            console.log('model', UserMapper.toModel(user));
             await this.db
                 .send(new PutItemCommand({
                     TableName: LoadEnv.USERS_TABLE,

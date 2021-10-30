@@ -1,5 +1,5 @@
 import { AttributeValue } from '@aws-sdk/client-dynamodb';
-import { UserDto, UserModel } from './User';
+import { UserDto, UserModel, TwitterUserModel } from './User';
 
 export default class UserMapper {
     static toDto(model: UserModel): UserDto {
@@ -17,6 +17,15 @@ export default class UserMapper {
             IMAGE: { S: user.image } as AttributeValue,
             NAME: { S: user.name } as AttributeValue,
             DESCRIPTION: { S: user.description } as AttributeValue,
+        }
+    }
+
+    static twitter2Dto(user: TwitterUserModel): UserDto {
+        return {
+            twitterHandle: user.screen_name,
+            image: user.profile_image_url_https,
+            name: user.name,
+            description: user.description,
         }
     }
 }

@@ -55,6 +55,7 @@ export default class Server {
         }
 
         if (error instanceof Error) {
+            console.error(`"Internal Server Error" ${req.path}:`, error);
             return res.status(500).json({
                 success: false,
                 message: "Internal Server Error",

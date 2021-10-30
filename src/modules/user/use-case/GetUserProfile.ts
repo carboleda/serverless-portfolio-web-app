@@ -7,7 +7,12 @@ export default class GetUserProfile {
     constructor(@Inject private repository: UserRepository) { }
 
     async exec(twitterHandle: string): Promise<UserDto> {
-        const user: UserDto | null = await this.repository.getUserFromDb(twitterHandle);
+        let user: UserDto | null = await this.repository.getUserFromDb(twitterHandle);
+
+        if (!user) {
+            user = await this.repository.getUserFromApi(twitterHandle);
+            await this.repository.saveUserToDb(user);
+        }
 
         if (!user) {
             throw new NotFoundError();
