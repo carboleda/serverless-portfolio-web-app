@@ -6,7 +6,7 @@ import LoadEnv from "../../../helpers/LoadEnv";
 import { DynamoDBClient, BatchWriteItemCommand, QueryCommand } from "@aws-sdk/client-dynamodb";
 import TweetMapper from "../model/TweetMapper";
 
-export default class UserRepository {
+export default class TweetRepository {
     private static URL: string = `${LoadEnv.TWITTER_ENDPOINT}/1.1/statuses/user_timeline.json?screen_name={screen_name}&count={count}`;
     @Inject
     private db!: DynamoDBClient;
@@ -16,7 +16,7 @@ export default class UserRepository {
     async getLastTweetsByUserFromApi(twitterHandle: string): Promise<TweetDto[]> {
         try {
             const response: { data: TweetTwitterModel[] } = await this.api.request({
-                url: UserRepository.URL,
+                url: TweetRepository.URL,
                 method: Methods.GET,
                 headers: {
                     Authorization: LoadEnv.TWITTER_BEARER_TOKEN

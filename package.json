@@ -1,5 +1,5 @@
 {
-  "name": "leantech-backend-challenge",
+  "name": "serverless-portfolio-web-app",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -45,6 +45,7 @@
   "devDependencies": {
     "@aws-sdk/types": "^3.38.0",
     "@types/express": "^4.17.13",
+    "@types/jest": "^27.0.2",
     "@types/node": "^16.11.6",
     "cpy-cli": "^1.0.1",
     "eslint": "^7.32.0",
