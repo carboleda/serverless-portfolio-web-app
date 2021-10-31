@@ -1,12 +1,17 @@
+import { TweetDto } from './../../tweet/model/Tweet';
 import { Inject } from "typescript-ioc";
-import { UserDto } from './../model/User';
+import { UserDto, UserProfileDto } from './../model/User';
 import UserRepository from "../repository/UserRepository";
 import NotFoundError from '../../../domain/errors/NotFoundError';
+import GetTweetsByUser from "../../tweet/use-case/GetTweetsByUser";
 
 export default class GetUserProfile {
-    constructor(@Inject private repository: UserRepository) { }
+    constructor(
+        @Inject private repository: UserRepository,
+        @Inject private getTweets: GetTweetsByUser,
+    ) { }
 
-    async exec(twitterHandle: string): Promise<UserDto> {
+    async exec(twitterHandle: string): Promise<UserProfileDto> {
         let user: UserDto | null = await this.repository.getUserFromDb(twitterHandle);
 
         if (!user) {
@@ -18,6 +23,8 @@ export default class GetUserProfile {
             throw new NotFoundError();
         }
 
-        return user;
+        const tweets: TweetDto[] = await this.getTweets.exec(twitterHandle);
+
+        return { user, tweets };
     }
 }

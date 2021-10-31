@@ -17,9 +17,11 @@ export default class UpdateUserRoute extends AbstractRoute {
         router.post('/', (req: Express.Request, res: Express.Response, next: Express.NextFunction) => {
             const user: UserDto = req.body;
 
-            this.useCase.exec(user).then((success: boolean) => {
-                res.send({ success });
-            }).catch(next);
+            this.useCase.exec(user)
+                .then((success: boolean) => {
+                    res.send({ success });
+                })
+                .catch(next);
         });
 
         return router;

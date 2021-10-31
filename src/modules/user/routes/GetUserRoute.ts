@@ -1,7 +1,7 @@
+import { UserProfileDto } from './../model/User';
 import * as Express from "express";
 import AbstractRoute from "../../../domain/AbstractRoute";
 import GetUserProfile from "../use-case/GetUserProfile";
-import { UserDto } from "../model/User";
 import { Inject } from "typescript-ioc";
 
 export default class GetUserRoute extends AbstractRoute {
@@ -17,9 +17,11 @@ export default class GetUserRoute extends AbstractRoute {
 
         router.get('/:handle', (req: Express.Request, res: Express.Response, next: Express.NextFunction) => {
             const { handle } = req.params;
-            this.useCase.exec(handle).then((user: UserDto) => {
-                res.send({ success: true, user });
-            }).catch(next);
+            this.useCase.exec(handle)
+                .then((profile: UserProfileDto) => {
+                    res.send({ success: true, profile });
+                })
+                .catch(next);
         });
 
         return router;

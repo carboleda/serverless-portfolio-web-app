@@ -25,7 +25,6 @@ export default class UserRepository {
 
             return UserMapper.twitter2Dto(response.data);
         } catch (error) {
-            console.error('error', error);
             throw error;
         }
     }

@@ -4,7 +4,8 @@ service: zemoga-serverless-portfolio-web-app
 frameworkVersion: '2'
 
 custom:
-  tableName: 'users-table-${sls:stage}'
+  usersTableName: 'users-table-${sls:stage}'
+  tweetsTableName: 'tweets-table-${sls:stage}'
   dynamodb:
   # If you only want to use DynamoDB Local in some stages, declare them here
     stages:
@@ -25,7 +26,6 @@ package:
     - 'dist/**'
     - 'package.json'
     - 'yarn.lock'
-    #- '!node_modules/**'
     - '!src/**'
 
 provider:
@@ -45,8 +45,10 @@ provider:
             - dynamodb:DeleteItem
           Resource:
             - Fn::GetAtt: [ UsersTable, Arn ]
+            - Fn::GetAtt: [ TweetsTable, Arn ]
   environment:
-    USERS_TABLE: ${self:custom.tableName}
+    USERS_TABLE: ${self:custom.usersTableName}
+    TWEETS_TABLE: ${self:custom.tweetsTableName}
 
 functions:
   api:
@@ -66,7 +68,22 @@ resources:
           - AttributeName: TWITTER_HANDLE
             KeyType: HASH
         BillingMode: PAY_PER_REQUEST
-        TableName: ${self:custom.tableName}
+        TableName: ${self:custom.usersTableName}
+    TweetsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: ID
+            AttributeType: S
+          - AttributeName: TWITTER_HANDLE
+            AttributeType: S
+        KeySchema:
+          - AttributeName: TWITTER_HANDLE
+            KeyType: HASH
+          - AttributeName: ID
+            KeyType: RANGE
+        BillingMode: PAY_PER_REQUEST
+        TableName: ${self:custom.tweetsTableName}
 
 plugins:
   #- serverless-bundle
