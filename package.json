@@ -2,18 +2,15 @@
   "name": "leantech-backend-challenge",
   "version": "1.0.0",
   "description": "",
-  "main": "dist/index.js",
+  "main": "index.js",
   "scripts": {
-    "start": "node dist/index.js",
-    "dev": "./node_modules/.bin/run-s copy:env:dev build:nodemon",
-    "test": "jest",
-    "prebuild": "rm -Rf dist",
-    "build": "./node_modules/.bin/tsc",
-    "build:nodemon": "nodemon --exec ./node_modules/.bin/ts-node -- ./index.ts",
-    "postbuild": "npm run copy:all",
-    "copy:config": "./node_modules/.bin/cpy 'config/**/.*' '!**/*.ts' ./dist/ --no-overwrite --parents",
-    "copy:env:dev": "./node_modules/.bin/cpy './config/.env.dev' './' --rename='.env' --overwrite",
-    "copy:all": "./node_modules/.bin/run-s copy:config"
+    "start": "node index.js",
+    "dev": "sls offline",
+    "deploy": "sls deploy",
+    "undeploy": "sls remove",
+    "dynamodb:start": "sls dynamodb start",
+    "dynamodb:remove": "sls dynamodb remove",
+    "test": "jest"
   },
   "engines": {
     "node": "^14.16.0",
@@ -26,28 +23,26 @@
     "express",
     "docker",
     "jest",
-    "backend"
+    "backend",
+    "dynamodb"
   ],
   "author": "Carlos Arboleda <arbofercho@gmail.com> (https://carlosarboleda.co/)",
   "repository": {
     "type": "git",
-    "url": "https://github.com/carboleda/cms-backend-challenge"
+    "url": "https://github.com/carboleda/serverless-portfolio-web-app"
   },
   "license": "ISC",
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.39.0",
     "aws-sdk": "^2.1018.0",
     "axios": "^0.24.0",
-    "base-64": "^1.0.0",
-    "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "serverless-http": "^2.7.0",
-    "typescript": "^4.3.5",
+    "typescript": "^4.4.4",
     "typescript-ioc": "^3.2.2"
   },
   "devDependencies": {
     "@aws-sdk/types": "^3.38.0",
-    "@types/base-64": "^1.0.0",
     "@types/express": "^4.17.13",
     "@types/node": "^16.11.6",
     "cpy-cli": "^1.0.1",
@@ -56,8 +51,10 @@
     "nodemon": "^2.0.12",
     "npm-run-all": "^4.1.5",
     "serverless-bundle": "^5.0.2",
+    "serverless-dotenv-plugin": "^3.10.0",
     "serverless-dynamodb-local": "^0.2.40",
     "serverless-offline": "^8.2.0",
+    "serverless-plugin-typescript": "^2.1.0",
     "ts-jest": "^27.0.5",
     "ts-node": "^10.2.1"
   }

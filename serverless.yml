@@ -6,6 +6,8 @@ frameworkVersion: '2'
 custom:
   usersTableName: 'users-table-${sls:stage}'
   tweetsTableName: 'tweets-table-${sls:stage}'
+  dotenv:
+    path: './config/.env.${sls:stage}'
   dynamodb:
   # If you only want to use DynamoDB Local in some stages, declare them here
     stages:
@@ -23,10 +25,8 @@ custom:
 
 package:
   patterns:
-    - 'dist/**'
     - 'package.json'
     - 'yarn.lock'
-    - '!src/**'
 
 provider:
   name: aws
@@ -43,6 +43,7 @@ provider:
             - dynamodb:PutItem
             - dynamodb:UpdateItem
             - dynamodb:DeleteItem
+            - dynamodb:BatchWriteItem
           Resource:
             - Fn::GetAtt: [ UsersTable, Arn ]
             - Fn::GetAtt: [ TweetsTable, Arn ]
@@ -52,7 +53,7 @@ provider:
 
 functions:
   api:
-    handler: dist/index.handler
+    handler: index.handler
     events:
       - httpApi: '*'
 
@@ -86,6 +87,7 @@ resources:
         TableName: ${self:custom.tweetsTableName}
 
 plugins:
-  #- serverless-bundle
+  - serverless-dotenv-plugin
+  - serverless-plugin-typescript
   - serverless-dynamodb-local
   - serverless-offline

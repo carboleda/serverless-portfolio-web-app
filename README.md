@@ -16,17 +16,26 @@
 
 This project was implemented using the next tools or libraries:
 
-- Nodejs, Typescript, HapiJs, Mongodb and Docker.
-- For compile and run this project you only will need Docker and Docker compose since everything is encapsulated on a Docker image.
-- The Spotify authentication is implemented using the [Client Credentials Flow](https://developer.spotify.com/documentation/general/guides/authorization-guide/#client-credentials-flow)
-- The server runs in [http://127.0.0.1:8888](http://127.0.0.1:8888).
+- Nodejs, Typescript, Serverless Framework and DynamoDB.
+- For compile and run this project you only will need to install Serverless globally since everything is based on it.
+- The Spotify authentication is implemented using the [OAuth 2.0 Bearer Token](https://developer.twitter.com/en/docs/authentication/oauth-2-0)
+- The server runs in [http://127.0.0.1:3000](http://127.0.0.1:3000).
 
 
 # Compiling and running the project
 
 ### Requirements
 
-- Docker Engine version `19.03.12` or similar. If you don't have it installed, you can see instructions [here](https://docs.docker.com/engine/install/).
+- Serverless Framework with following versions:
+    ```bash
+    $ sls --version
+    # Output
+    Framework Core: 2.64.1
+    Plugin: 5.5.0
+    SDK: 4.3.0
+    Components: 3.17.1
+    ```
+    If you don't have it installed, you can see instructions [here](https://www.serverless.com/framework/docs/getting-started).
 - Docker Compose version `1.26.2` or similar. If you don't have it installed, you can see instructions [here](https://docs.docker.com/compose/install/).
 - (Optional) If you want to connect to Mongo database, you could install [MongoDB Compass](https://www.mongodb.com/try/download/compass).
     - Use the variable `DATABASE_CONNECTION_URI` available on `config/.env.dev`.
