@@ -11,6 +11,8 @@ type Populate = {
 
 export default class Constants {
 
+    public static NAME_REGEX: RegExp = /^[A-Za-z\s]+$/;
+
     public static MY_API_PAGING: Paging = {
         DEFAULT_LIMIT: 20,
         DEFAULT_OFFSET: 0

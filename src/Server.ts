@@ -1,6 +1,7 @@
 import LoadEnv from './helpers/LoadEnv';
 import "./IoC";
 import * as Express from 'express';
+import * as Joi from 'joi';
 import AbstractRoute from './domain/AbstractRoute';
 import ApiError from './domain/errors/ApiError';
 import { Environment } from './helpers/Constants';
@@ -45,6 +46,14 @@ export default class Server {
     private errorHandler(
         error: unknown, req: Express.Request, res: Express.Response, next: Express.NextFunction
     ): Express.Response | void {
+        if (error instanceof Joi.ValidationError) {
+            return res.status(400).json({
+                success: false,
+                message: 'Bad Request',
+                cause: error.message,
+            });
+        }
+
         if (error instanceof ApiError) {
             console.warn(`Caught Validation Error for ${req.path}:`, error.code);
             return res.status(error.code).json({
@@ -58,7 +67,7 @@ export default class Server {
             console.error(`"Internal Server Error" ${req.path}:`, error);
             return res.status(500).json({
                 success: false,
-                message: "Internal Server Error",
+                message: 'Internal Server Error',
                 cause: error.message,
                 name: error.name,
             });

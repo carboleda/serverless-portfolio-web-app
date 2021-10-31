@@ -17,7 +17,7 @@ export default class UserMapper {
         return {
             ID: { S: dto.id } as AttributeValue,
             TEXT: { S: dto.text } as AttributeValue,
-            URL: { S: dto.url } as AttributeValue,
+            URL: { S: dto.url || '' } as AttributeValue,
             USER_NAME: { S: dto.userName } as AttributeValue,
             USER_IMAGE: { S: dto.userImage } as AttributeValue,
             TWITTER_HANDLE: { S: dto.twitterHandle } as AttributeValue,
@@ -26,7 +26,7 @@ export default class UserMapper {
 
     static twitter2Dto(model: TweetTwitterModel): TweetDto {
         const getPartial = (tweet: TweetTwitterModel): any => ({
-            url: tweet.entities.urls[0].url,
+            url: tweet.entities.urls.length > 0 ? tweet.entities.urls[0].url : undefined,
             userName: tweet.user.name,
             userImage: tweet.user.profile_image_url_https
         })
