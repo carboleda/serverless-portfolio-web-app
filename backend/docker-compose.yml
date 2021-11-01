@@ -11,3 +11,5 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./:/usr/src/dynamodb
+    environment:
+      - SLS_DEBUG=*

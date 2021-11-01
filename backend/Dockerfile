@@ -7,4 +7,4 @@ RUN npm install -g serverless
 WORKDIR /usr/src/dynamodb
 
 EXPOSE 8000
-CMD [ "sls", "dynamodb", "start" ]
+CMD [ "serverless", "dynamodb", "start" ]

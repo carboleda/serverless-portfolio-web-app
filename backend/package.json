@@ -7,8 +7,8 @@
     "start": "node index.js",
     "dev": "sls offline",
     "dev:debug": "SLS_DEBUG=* sls offline",
-    "deploy": "sls deploy",
-    "undeploy": "sls remove",
+    "deploy": "sls deploy -s production",
+    "undeploy": "sls remove -s production",
     "dynamodb:start": "sls dynamodb start",
     "dynamodb:remove": "sls dynamodb remove",
     "test": "jest"

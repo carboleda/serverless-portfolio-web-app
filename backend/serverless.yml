@@ -2,6 +2,7 @@ org: acrboleda
 app: zemoga-serverless-portfolio-web-app
 service: backend
 frameworkVersion: '2'
+useDotenv: true
 
 custom:
   usersTableName: 'users-table-${sls:stage}'
