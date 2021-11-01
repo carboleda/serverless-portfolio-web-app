@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback, useRef } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Avatar from '@mui/material/Avatar';
@@ -22,12 +22,21 @@ export const getServerSideProps: GetServerSideProps = async (context: GetServerS
   const response = await fetch(`${Constants.API}/user/${twitterHandle}`)
     .then(res => res.json());
 
-  return {
-    props: {
-      success: response.success,
-      twitterHandle,
-      userProfile: response.profile,
+  if (response.success) {
+    return {
+      props: {
+        success: response.success,
+        twitterHandle,
+        userProfile: response.profile,
+      }
     }
+  }
+
+  return {
+    redirect: {
+      destination: '/error/404',
+      permanent: false,
+    },
   }
 }
 

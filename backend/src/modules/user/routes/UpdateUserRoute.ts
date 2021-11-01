@@ -12,7 +12,7 @@ export default class UpdateUserRoute extends AbstractRoute {
         twitterHandle: Joi.string().min(4).max(15).required(),
     });
     private bodySchema: Joi.Schema = Joi.object({
-        name: Joi.string().min(3).max(50).regex(Constants.NAME_REGEX).required(),
+        name: Joi.string().min(1).max(50).required(),
         image: Joi.string().uri().required(),
         description: Joi.string().max(250).required(),
     });

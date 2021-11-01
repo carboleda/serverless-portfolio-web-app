@@ -20,10 +20,15 @@ export default class UserMapper {
         }
     }
 
+    /**
+     * The '_normal' section is removed from the image url in order to access the original variant
+     * See more https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/user-profile-images-and-banners
+     */
     static twitter2Dto(model: TwitterUserModel): UserDto {
+        const image = model.profile_image_url_https;
         return {
             twitterHandle: model.screen_name,
-            image: model.profile_image_url_https,
+            image: image ? image.replace('_normal', '') : image,
             name: model.name,
             description: model.description,
         }
