@@ -8,7 +8,7 @@ import { Inject } from "typescript-ioc";
 export default class GetUserRoute extends AbstractRoute {
     @Inject
     private useCase!: GetUserProfile;
-    private schema: Joi.Schema = Joi.object({
+    private paramsSchema: Joi.Schema = Joi.object({
         twitterHandle: Joi.string().min(4).max(15).required(),
     });
 
@@ -35,12 +35,12 @@ export default class GetUserRoute extends AbstractRoute {
     }
 
     private validations = (req: Express.Request, res: Express.Response, next: Express.NextFunction): void => {
-        const { error, value } = this.schema.validate(req.params);
-        if (error) {
-            return next(error);
+        const { error: paramsErrors, value: params } = this.paramsSchema.validate(req.params);
+        if (paramsErrors) {
+            return next(paramsErrors);
         }
 
-        req.params = value;
+        req.params = params;
         next();
     }
 }

@@ -4,7 +4,6 @@ import * as Express from 'express';
 import * as Joi from 'joi';
 import AbstractRoute from './domain/AbstractRoute';
 import ApiError from './domain/errors/ApiError';
-import { Environment } from './helpers/Constants';
 import GetUserRoute from './modules/user/routes/GetUserRoute';
 import UpdateUserRoute from './modules/user/routes/UpdateUserRoute';
 
@@ -13,18 +12,14 @@ export default class Server {
     private server?: Express.Application;
     private routes: AbstractRoute[] = [];
 
-    public async start() {
+    public init(): Express.Application {
         this.server = Express();
 
         this.server.use(Express.json());
         this.setRoutes();
         this.server.use(this.errorHandler);
 
-        if (LoadEnv.IS_OFFLINE || LoadEnv.NODE_ENV === Environment.DEV) {
-            this.server.listen(LoadEnv.PORT, () => {
-                console.log(this.runningMessage);
-            });
-        }
+        return this.server;
     }
 
     public getApp(): Express.Application {

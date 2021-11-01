@@ -8,11 +8,13 @@ import { Inject } from 'typescript-ioc';
 
 export default class UpdateUserRoute extends AbstractRoute {
     @Inject private useCase!: UpdateUserProfile;
-    private schema: Joi.Schema = Joi.object({
+    private paramsSchema: Joi.Schema = Joi.object({
         twitterHandle: Joi.string().min(4).max(15).required(),
+    });
+    private bodySchema: Joi.Schema = Joi.object({
         name: Joi.string().min(3).max(50).regex(Constants.NAME_REGEX).required(),
         image: Joi.string().uri().required(),
-        description: Joi.string().max(250).optional().default(''),
+        description: Joi.string().max(250).required(),
     });
 
     constructor(server: Express.Application) {
@@ -22,15 +24,16 @@ export default class UpdateUserRoute extends AbstractRoute {
     register(): Express.Router {
         const router = Express.Router();
 
-        router.put('/', this.validations, this.handler);
+        router.put('/:twitterHandle', this.validations, this.handler);
 
         return router;
     }
 
     private handler = (req: Express.Request, res: Express.Response, next: Express.NextFunction): void => {
+        const { twitterHandle } = req.params;
         const user: UserDto = req.body;
 
-        this.useCase.exec(user)
+        this.useCase.exec({ ...user, twitterHandle })
             .then((success: boolean) => {
                 res.send({ success });
             })
@@ -38,12 +41,18 @@ export default class UpdateUserRoute extends AbstractRoute {
     }
 
     private validations = (req: Express.Request, res: Express.Response, next: Express.NextFunction): void => {
-        const { error, value } = this.schema.validate(req.body);
-        if (error) {
-            return next(error);
+        const { error: paramsErrors, value: params } = this.paramsSchema.validate(req.params);
+        if (paramsErrors) {
+            return next(paramsErrors);
         }
 
-        req.body = value;
+        const { error: bodyErrors, value: body } = this.bodySchema.validate(req.body);
+        if (bodyErrors) {
+            return next(bodyErrors);
+        }
+
+        req.body = params;
+        req.body = body;
         next();
     }
 }

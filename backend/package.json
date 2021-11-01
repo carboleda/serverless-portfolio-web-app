@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node index.js",
     "dev": "sls offline",
+    "dev:debug": "SLS_DEBUG=* sls offline",
     "deploy": "sls deploy",
     "undeploy": "sls remove",
     "dynamodb:start": "sls dynamodb start",
