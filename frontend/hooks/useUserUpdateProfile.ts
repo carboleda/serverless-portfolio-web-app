@@ -11,19 +11,22 @@ export declare interface UserUpdateProfileResult {
 
 export const useUpdateProfile = (): UserUpdateProfileResult => {
     const [isLoading, setIsLoading] = useState(false);
-    const [errorMessage, setErrorMessage] = useState(null);
+    const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
     const updateProfile = useCallback(async (twitterHandle: string, user: User): Promise<void> => {
         try {
             setIsLoading(true);
+            setErrorMessage(null);
             const { image, name, description } = user;
-            await Utilities.putData(`${Constants.API}/user/${twitterHandle}`, {
+            const response = await Utilities.putData(`${Constants.API}/user/${twitterHandle}`, {
                 image, name, description
             });
 
-            setErrorMessage(null);
+            if(!response.success) {
+                setErrorMessage('Error updating profile, try it againg');
+            }
         } catch (error) {
-            setErrorMessage((error as Error)?.message || null);
+            setErrorMessage((error as Error).message);
         } finally {
             setIsLoading(false);
         }

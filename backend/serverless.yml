@@ -1,6 +1,6 @@
 org: acrboleda
 app: zemoga-serverless-portfolio-web-app
-service: zemoga-serverless-portfolio-web-app
+service: backend
 frameworkVersion: '2'
 
 custom:

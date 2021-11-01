@@ -46,7 +46,7 @@ const ProfilePage: NextPage<ProfilePageProps> = ({ twitterHandle, userProfile })
   const [isEditing, setIsEditing] = useState(false);
   const [name, setName] = useState(user.name);
   const [description, setDescription] = useState(user.description);
-  const { updateProfile, isLoading: isUpdatingProfile } = useUpdateProfile();
+  const { updateProfile, errorMessage, isLoading } = useUpdateProfile();
 
   useEffect(() => {
     if (isMounted.current) {
@@ -82,8 +82,17 @@ const ProfilePage: NextPage<ProfilePageProps> = ({ twitterHandle, userProfile })
 
           <Grid container item
             justifyContent="flex-end"
+            alignItems="center"
             xs={12} md={12} lg={12}>
-            <EditButton isEditing={isEditing} isLoading={isUpdatingProfile}
+            {errorMessage && <Typography
+              sx={{ display: 'inline' }}
+              component="div"
+              variant="body1"
+              color="red">
+              {errorMessage}
+            </Typography>}
+
+            <EditButton isEditing={isEditing} isLoading={isLoading}
               onEditStarted={() => setIsEditing(true)}
               onEditFinished={() => setIsEditing(false)} />
           </Grid>
