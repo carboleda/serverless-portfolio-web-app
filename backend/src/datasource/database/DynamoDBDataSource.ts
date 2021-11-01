@@ -7,14 +7,11 @@ export default class DynamoDBDataSource {
     private db?: DynamoDBClient;
 
     constructor() {
-        if (LoadEnv.IS_OFFLINE) {
-            this.db = new DynamoDBClient({
-                region: 'localhost',
-                endpoint: 'http://localhost:8000',
-            });
-        } else {
-            this.db = new DynamoDBClient({});
-        }
+        const offlineOptions = {
+            region: LoadEnv.DYNAMODB_LOCAL_REGION,
+            endpoint: LoadEnv.DYNAMODB_LOCAL_ENDPOINT,
+        };
+        this.db = new DynamoDBClient(LoadEnv.IS_OFFLINE ? offlineOptions : {});
     }
 
     public getConnection(): DynamoDBClient {

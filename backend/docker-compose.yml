@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  sls-dynamodb:
+    image: sls-dynamodb
+    hostname: sls-dynamodb
+    ports:
+      - "8000:8000"
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    volumes:
+      - ./:/usr/src/dynamodb

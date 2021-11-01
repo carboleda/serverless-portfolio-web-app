@@ -8,6 +8,9 @@ export default class LoadEnv {
     public static readonly TTL_TWEETS: number = parseInt(process.env.TTL_TWEETS!!);
     public static readonly TWITTER_BEARER_TOKEN: string = process.env.TWITTER_BEARER_TOKEN!!;
 
+    public static readonly DYNAMODB_LOCAL_REGION: string = process.env.DYNAMODB_LOCAL_REGION || '';
+    public static readonly DYNAMODB_LOCAL_ENDPOINT: string = process.env.DYNAMODB_LOCAL_ENDPOINT || '';
+
     public static readonly USERS_TABLE: string = process.env.USERS_TABLE!!;
     public static readonly TWEETS_TABLE: string = process.env.TWEETS_TABLE!!;
 
