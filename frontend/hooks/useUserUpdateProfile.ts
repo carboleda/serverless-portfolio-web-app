@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react";
 import Constants from "../helpers/constants";
 import Utilities from "../helpers/utilities";
-import { User } from "../types/profile";
+import { User } from "../types/user";
 
 export declare interface UserUpdateProfileResult {
     updateProfile: (twitterHandle: string, user: User) => Promise<void>,
@@ -17,9 +17,9 @@ export const useUpdateProfile = (): UserUpdateProfileResult => {
         try {
             setIsLoading(true);
             setErrorMessage(null);
-            const { image, name, description } = user;
+            const { name, description } = user;
             const response = await Utilities.putData(`${Constants.API}/user/${twitterHandle}`, {
-                image, name, description
+                name, description,
             });
 
             if(!response.success) {

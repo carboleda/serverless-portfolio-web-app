@@ -8,6 +8,7 @@ export type UserDto = {
     image: string | undefined,
     name: string | undefined,
     description: string | undefined,
+    timelineUpdatedAt: number | undefined,
 }
 
 export type TwitterUserModel = {

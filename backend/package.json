@@ -22,7 +22,7 @@
     "nodejs",
     "typescript",
     "express",
-    "docker",
+    "serverless",
     "jest",
     "backend",
     "dynamodb"

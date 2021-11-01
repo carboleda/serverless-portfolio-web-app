@@ -5,6 +5,7 @@ export type User = {
     image: string,
     name: string,
     description: string,
+    timelineUpdatedAt: number
 }
 
 export type UserProfile = {

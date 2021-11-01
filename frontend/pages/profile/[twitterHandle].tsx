@@ -6,7 +6,7 @@ import { GetServerSideProps, GetServerSidePropsContext, NextPage } from 'next';
 import { Typography } from '@mui/material';
 import Timeline from '../../components/Timeline';
 import EditableBio from '../../components/EditableBio';
-import { UserProfile } from '../../types/profile';
+import { UserProfile } from '../../types/user';
 import EditButton from '../../components/EditButton';
 import EditableName from '../../components/EditableName';
 import Constants from '../../helpers/constants';

@@ -5,6 +5,7 @@ export default class LoadEnv {
     public static readonly PORT: number = parseInt(process.env.PORT || '3000');
     public static readonly TWITTER_ENDPOINT: string = process.env.TWITTER_ENDPOINT!!;
     public static readonly LIMIT_TWEETS: number = parseInt(process.env.LIMIT_TWEETS!!);
+    public static readonly TTL_TWEETS: number = parseInt(process.env.TTL_TWEETS!!);
     public static readonly TWITTER_BEARER_TOKEN: string = process.env.TWITTER_BEARER_TOKEN!!;
 
     public static readonly USERS_TABLE: string = process.env.USERS_TABLE!!;

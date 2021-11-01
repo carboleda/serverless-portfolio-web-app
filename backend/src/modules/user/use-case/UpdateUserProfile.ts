@@ -6,7 +6,7 @@ export default class UpdateUserProfile {
     constructor(@Inject private repository: UserRepository) {}
 
     async exec(user: UserDto): Promise<boolean> {
-        await this.repository.saveUserToDb(user);
+        await this.repository.updateUserOnDb(user);
 
         return true;
     }

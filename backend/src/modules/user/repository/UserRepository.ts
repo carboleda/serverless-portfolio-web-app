@@ -3,7 +3,7 @@ import { UserDto } from './../model/User';
 import { Methods } from "../../../datasource/rest-api/Client";
 import Api from "../../../datasource/rest-api/Api";
 import LoadEnv from "../../../helpers/LoadEnv";
-import { DynamoDBClient, PutItemCommand, GetItemCommand } from "@aws-sdk/client-dynamodb";
+import { DynamoDBClient, PutItemCommand, UpdateItemCommand, GetItemCommand } from "@aws-sdk/client-dynamodb";
 import UserMapper from "../model/UserMapper";
 
 export default class UserRepository {
@@ -29,7 +29,7 @@ export default class UserRepository {
         }
     }
 
-    async saveUserToDb(user: UserDto): Promise<UserDto> {
+    async createUserOnDb(user: UserDto): Promise<UserDto> {
         try {
             await this.db
                 .send(new PutItemCommand({
@@ -43,7 +43,53 @@ export default class UserRepository {
         return user;
     }
 
-    async getUserFromDb(handle: string): Promise<UserDto | null> {
+    async updateUserOnDb(user: UserDto): Promise<UserDto> {
+        try {
+            await this.db
+                .send(new UpdateItemCommand({
+                    TableName: LoadEnv.USERS_TABLE,
+                    Key: {
+                        TWITTER_HANDLE: { S: user.twitterHandle!! },
+                    },
+                    ExpressionAttributeNames: {
+                        "#NAME": 'NAME',
+                        "#DESCRIPTION": 'DESCRIPTION',
+                    },
+                    ExpressionAttributeValues: {
+                        ":n": { S: user.name!! },
+                        ":d": { S: user.description!! },
+                    },
+                    UpdateExpression: "set #NAME = :n, #DESCRIPTION = :d",
+                }));
+        } catch (error) {
+            throw error;
+        }
+
+        return user;
+    }
+
+    async saveTimelineUpdatedAtOnDb(twitterHandle: string, timelineUpdatedAt: number): Promise<void> {
+        try {
+            await this.db
+                .send(new UpdateItemCommand({
+                    TableName: LoadEnv.USERS_TABLE,
+                    Key: {
+                        TWITTER_HANDLE: { S: twitterHandle!! },
+                    },
+                    ExpressionAttributeNames: {
+                        "#TIMELINE_UPDATED_AT": 'TIMELINE_UPDATED_AT',
+                    },
+                    ExpressionAttributeValues: {
+                        ":t": { N: timelineUpdatedAt.toString() },
+                    },
+                    UpdateExpression: "set #TIMELINE_UPDATED_AT = :t",
+                }));
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async getUserFromDb(twitterHandle: string): Promise<UserDto | null> {
         let user: UserDto | null = null
 
         try {
@@ -51,7 +97,7 @@ export default class UserRepository {
                 .send(new GetItemCommand({
                     TableName: LoadEnv.USERS_TABLE,
                     Key: {
-                        TWITTER_HANDLE: { S: handle },
+                        TWITTER_HANDLE: { S: twitterHandle },
                     }
                 }));
             if (Item) {

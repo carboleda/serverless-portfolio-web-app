@@ -8,6 +8,7 @@ export default class UserMapper {
             image: model.IMAGE ? model.IMAGE.S : undefined,
             name: model.NAME ? model.NAME.S : undefined,
             description: model.DESCRIPTION ? model.DESCRIPTION.S : undefined,
+            timelineUpdatedAt: model.TIMELINE_UPDATED_AT ? parseInt(`${model.TIMELINE_UPDATED_AT.N}`) : undefined,
         }
     }
 
@@ -17,6 +18,7 @@ export default class UserMapper {
             IMAGE: { S: dto.image } as AttributeValue,
             NAME: { S: dto.name } as AttributeValue,
             DESCRIPTION: { S: dto.description } as AttributeValue,
+            TIMELINE_UPDATED_AT: { N: dto.timelineUpdatedAt?.toString() } as AttributeValue,
         }
     }
 
@@ -31,6 +33,7 @@ export default class UserMapper {
             image: image ? image.replace('_normal', '') : image,
             name: model.name,
             description: model.description,
+            timelineUpdatedAt: Date.now(),
         }
     }
 }

@@ -31,7 +31,7 @@ describe('Get user profile', () => {
         }
     });
 
-    test('User are saved to DB when them does not exit', async () => {
+    test('Users are saved to DB when them does not exist', async () => {
         // Arrange
         const twitterHandle = 'this_does_not_exist';
         class UserRepositoryMock extends UserRepository {
@@ -40,10 +40,11 @@ describe('Get user profile', () => {
                     "twitterHandle": "cfarboleda",
                     "image": "",
                     "name": "Carlos F Arboleda",
-                    "description": "Senior Software Engineer..."
+                    "description": "Senior Software Engineer...",
+                    "timelineUpdatedAt": Date.now(),
                 };
             }
-            async saveUserToDb(user: UserDto): Promise<UserDto> {
+            async createUserOnDb(user: UserDto): Promise<UserDto> {
                 return user;
             }
             async getUserFromDb(twitterHandle: string): Promise<UserDto | null> {
@@ -69,13 +70,13 @@ describe('Get user profile', () => {
         Container.bind(TweetRepository).to(TweetRepositoryMock);
 
         const useCase: GetUserProfile = Container.get(GetUserProfile);
-        const fnSaveUserToDbMock = jest.fn(userRepoMock.saveUserToDb);
-        userRepoMock.saveUserToDb = fnSaveUserToDbMock;
+        const fnCreateUserOnDbMock = jest.fn(userRepoMock.createUserOnDb);
+        userRepoMock.createUserOnDb = fnCreateUserOnDbMock;
 
         // Act
         await useCase.exec(twitterHandle);
 
         // Assert
-        expect(fnSaveUserToDbMock.mock.calls.length).toBe(1);
+        expect(fnCreateUserOnDbMock.mock.calls.length).toBe(1);
     });
 });

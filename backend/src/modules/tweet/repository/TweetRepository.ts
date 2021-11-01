@@ -32,6 +32,10 @@ export default class TweetRepository {
 
     async saveTweetsToDb(tweets: TweetDto[]): Promise<TweetDto[]> {
         try {
+            if (tweets.length === 0) {
+                return tweets;
+            }
+
             const requests = tweets
                 .map((tweet: TweetDto): any => {
                     return {
@@ -65,6 +69,7 @@ export default class TweetRepository {
                     ":s": { S: twitterHandle },
                 },
                 ScanIndexForward: false,
+                Limit: LoadEnv.LIMIT_TWEETS,
             };
 
             const { Items } = await this.db.send(new QueryCommand(params));

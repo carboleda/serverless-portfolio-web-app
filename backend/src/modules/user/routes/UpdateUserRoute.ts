@@ -1,7 +1,6 @@
 import { UserDto } from './../model/User';
 import * as Express from "express";
 import * as Joi from 'joi';
-import Constants from '../../../helpers/Constants';
 import AbstractRoute from "../../../domain/AbstractRoute";
 import UpdateUserProfile from "../use-case/UpdateUserProfile";
 import { Inject } from 'typescript-ioc';
@@ -13,7 +12,6 @@ export default class UpdateUserRoute extends AbstractRoute {
     });
     private bodySchema: Joi.Schema = Joi.object({
         name: Joi.string().min(1).max(50).required(),
-        image: Joi.string().uri().required(),
         description: Joi.string().max(250).required(),
     });
 

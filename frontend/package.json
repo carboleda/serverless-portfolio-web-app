@@ -5,7 +5,8 @@
     "dev": "next dev -p 4000",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "deploy": "vercel"
   },
   "dependencies": {
     "@emotion/react": "^11.5.0",
@@ -16,6 +17,23 @@
     "react": "17.0.2",
     "react-dom": "17.0.2"
   },
+  "engines": {
+    "node": "^14.16.0",
+    "npm": "^6.14.11",
+    "yarn": "^1.22.15"
+  },
+  "keywords": [
+    "nodejs",
+    "typescript",
+    "nextjs",
+    "reactjs"
+  ],
+  "author": "Carlos Arboleda <arbofercho@gmail.com> (https://carlosarboleda.co/)",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/carboleda/serverless-portfolio-web-app"
+  },
+  "license": "ISC",
   "devDependencies": {
     "@types/node": "16.11.6",
     "@types/react": "17.0.33",

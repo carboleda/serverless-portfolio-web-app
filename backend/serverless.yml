@@ -32,6 +32,8 @@ provider:
   name: aws
   runtime: nodejs14.x
   lambdaHashingVersion: '20201221'
+  httpApi:
+    cors: true
   iam:
     role:
       statements:
