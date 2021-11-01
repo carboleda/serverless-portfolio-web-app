@@ -46,7 +46,7 @@ describe('Get user profile', () => {
             async saveUserToDb(user: UserDto): Promise<UserDto> {
                 return user;
             }
-            async getUserFromDb(handle: string): Promise<UserDto | null> {
+            async getUserFromDb(twitterHandle: string): Promise<UserDto | null> {
                 return null;
             }
         }
@@ -58,7 +58,7 @@ describe('Get user profile', () => {
             async saveTweetsToDb(tweets: TweetDto[]): Promise<TweetDto[]> {
                 return tweets;
             }
-            async getTweetsByUserFromDb(handle: string): Promise<TweetDto[]> {
+            async getTweetsByUserFromDb(twitterHandle: string): Promise<TweetDto[]> {
                 return [];
             }
         }

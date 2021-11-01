@@ -54,16 +54,17 @@ export default class TweetRepository {
         return tweets;
     }
 
-    async getTweetsByUserFromDb(handle: string): Promise<TweetDto[]> {
+    async getTweetsByUserFromDb(twitterHandle: string): Promise<TweetDto[]> {
         let tweets: TweetDto[] = [];
 
         try {
             const params = {
+                TableName: LoadEnv.TWEETS_TABLE,
                 KeyConditionExpression: "TWITTER_HANDLE = :s",
                 ExpressionAttributeValues: {
-                    ":s": { S: handle },
+                    ":s": { S: twitterHandle },
                 },
-                TableName: LoadEnv.TWEETS_TABLE,
+                ScanIndexForward: false,
             };
 
             const { Items } = await this.db.send(new QueryCommand(params));
