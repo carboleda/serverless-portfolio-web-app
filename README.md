@@ -265,11 +265,11 @@ This project was implemented using the next tools or libraries:
 - I chose Typescript as a coding language because allows to use better programming features and disign patterns.
 - The backend project was implemented using Serverless Framework because it helps me to do things simpler.
 - I decided to use the Bearer token over Api tokens because Twitter Bearer is easier to manage and it does not expires unless it be explicitly revoked.
-- The project might seem an overkill but the idea was show
+- The project might seem an overkill but the idea was show my coding skills
 
 ## Spent time
 
-I spent approximately `36 hours` working on the challenge, most of the time was spent looking for documentation about  Serverless Framework setups since this is my first project. You can see detailed information [here](https://wakatime.com/@002ff661-bfcc-4831-bfca-4c3ad40ae0b5/projects/ygcrtnjnzq?start=2021-10-26&end=2021-11-01).
+I spent approximately `36 hours` working on the challenge, most of the time was spent looking for documentation about  Serverless Framework setups since this is my first project using the framework. You can see detailed information [here](https://wakatime.com/@002ff661-bfcc-4831-bfca-4c3ad40ae0b5/projects/ygcrtnjnzq?start=2021-10-26&end=2021-11-01).
 
 ## Resources
 
